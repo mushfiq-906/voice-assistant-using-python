@@ -2,11 +2,13 @@ import pyttsx3
 from datetime import datetime
 import speech_recognition as sr
 import wikipedia
+import webbrowser
+import os
+from random import randint
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty(voices, voices[1].id)
-
 
 def speak(audio):
     engine.say(audio)
@@ -43,7 +45,8 @@ def takeCommand():
 
 if __name__ == '__main__':
     wishMe()
-    while True:
+    i= 0
+    while i<=2:
         query = takeCommand().lower()
         # logic for executing tasks based on query
         if 'wikipedia' in query:
@@ -52,3 +55,25 @@ if __name__ == '__main__':
             results = wikipedia.summary(query, sentences=2)
             speak("According to wikipedia")
             speak(results)
+
+        elif 'open youtube' in query:
+            webbrowser.open('youtube.com')
+
+        elif 'open google' in query:
+            webbrowser.open('google.com')
+
+        elif 'open stack overflow' in query:
+            webbrowser.open('stackoverflow.com')
+        elif 'play music' in query:
+            music_dir = 'D:\Music'
+            songs = os.listdir(music_dir)
+            print(songs)
+            os.startfile(os.path.join(music_dir,songs[randint(0,100)]))
+
+        elif 'the time' in query:
+            result = datetime.now().strftime('%H:%M:%S')
+            speak(f'Sir, The time is {result}')
+
+        elif 'open code' in query:
+            path = "C:\\Users\mushf\AppData\Local\Programs\Microsoft VS Code\Code.exe"
+            os.startfile(path)
